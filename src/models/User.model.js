@@ -71,6 +71,18 @@ userSchema.methods.isValidPassword = async function(password){
     return await bcrypt.compare(password, this.password);
 };
 
+userSchema.methods.getJWTtoken = function(){
 
+    return jwt.sign({_id: this._id}, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE
+    });
+};
+
+userSchema.methods.getRefreshToken = function(){
+
+    return jwt.sign({_id: this._id}, process.env.REFRESH_SECRET, {
+        expiresIn: process.env.REFRESH_EXPIRE
+    });
+};
 
 export const User = mongoose.model("User", userSchema);
