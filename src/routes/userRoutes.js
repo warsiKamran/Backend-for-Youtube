@@ -1,0 +1,30 @@
+import { Router } from "express";
+import { registerUser } from "../controllers/userController.js";
+import {upload} from "../middlewares/multer.js"
+
+const router = Router();
+
+//signup
+router.route("/register").post(
+
+    upload.fields([
+
+        {
+            name: "avatar",
+            maxCount: 1
+        },
+
+        {
+            name: "coverImage",
+            maxCount: 1
+        }
+    ]), 
+    registerUser
+);
+
+//login
+
+
+
+export default router;
+

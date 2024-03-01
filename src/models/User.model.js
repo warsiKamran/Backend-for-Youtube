@@ -1,8 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import crypto from "crypto";
-
 
 const userSchema = new Schema({
 
@@ -20,6 +18,12 @@ const userSchema = new Schema({
         required: [true, "email is required"],
         lowercase: true,
         trim: true,
+    },
+
+    password: {
+        type: String,
+        select: false,
+        required: [true, "Password is required"],   
     },
 
     fullname: {
@@ -44,11 +48,6 @@ const userSchema = new Schema({
             ref: "Video",
         }
     ],
-
-    password: {
-        type: String,
-        required: [true, "Password is required"],   
-    },
 
     refreshToken: {
         type: String,
