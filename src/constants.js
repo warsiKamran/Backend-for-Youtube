@@ -1,2 +1,1 @@
-export const DB_NAME = "database for users"
-
+export const DB_NAME = "KamranCluster";
