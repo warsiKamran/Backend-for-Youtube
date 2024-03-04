@@ -35,7 +35,7 @@ const userSchema = new Schema({
 
     avatar: {
         type: String,
-        required: true,
+        // required: true,
     },
 
     coverImage: {
@@ -51,7 +51,6 @@ const userSchema = new Schema({
 
     refreshToken: {
         type: String,
-        select: false,
     },
 
 }, {timestamps: true});
