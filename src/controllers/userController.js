@@ -200,3 +200,61 @@ export const refreshAccessToken = asyncHandler(async(req, res) => {
 });
 
 
+export const changePassword = asyncHandler(async(req, res) => {
+
+    const {oldPassword, newPassword} = req.body;
+    const user = await User.findById(req.user._id).select("+password");
+
+    if(!oldPassword || !newPassword){
+        throw new apiError(401, "Password fields are empty");
+    } 
+
+    const isPasswordCorrect = await user.isValidPassword(oldPassword);
+
+    if(!isPasswordCorrect){
+        throw new apiError(401, "Old password is incorrect");
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    return res.status(200).json(
+        new apiResponse(200, "Password changed successfully")
+    );
+});
+
+
+export const getCurrentUser = asyncHandler(async(req, res) => {
+
+    const user = await User.findById(req.user._id);
+
+    if(!user){
+        throw apiError(400, "User is not logged in");
+    }
+
+    return res.status(200).json(
+        new apiResponse(200, user)
+    );
+});
+
+
+export const updateProfile = asyncHandler(async(req, res) => {
+
+    const {fullname, email} = req.body;
+    const user = await User.findById(req.user._id);
+
+    if(fullname){
+        user.fullname = fullname;
+    }
+
+    if(email){
+        user.email = email;
+    }
+
+    await user.save();
+
+    return res.status(200).json(
+        new apiResponse(200, "Profile updated successfully")
+    );
+});
+
