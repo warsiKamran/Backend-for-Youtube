@@ -1,7 +1,16 @@
 import { Router } from "express";
-import { changePassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateProfile } from "../controllers/userController.js";
 import {upload} from "../middlewares/multer.js"
 import { isAuthenticated } from "../middlewares/isAuthenticated.js";
+import { changePassword, 
+    getCurrentUser, 
+    loginUser, 
+    logoutUser, 
+    refreshAccessToken, 
+    registerUser, 
+    updateCoverImage, 
+    updateProfile, 
+    updateUserAvatar
+} from "../controllers/userController.js";
 
 const router = Router();
 
@@ -40,6 +49,13 @@ router.route("/profile").get(isAuthenticated, getCurrentUser);
 
 //update profile
 router.route("/updateprofile").put(isAuthenticated, updateProfile);
+
+//updating avatar image
+router.route("/avatar").put(isAuthenticated, upload.single("avatar"), updateUserAvatar);
+
+//updating cover image
+router.route("/coverimage").put(isAuthenticated, upload.single("coverImage"), updateCoverImage);
+
 
 export default router;
 
