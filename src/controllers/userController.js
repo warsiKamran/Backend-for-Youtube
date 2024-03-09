@@ -385,4 +385,14 @@ export const getUserChannelProfile = asyncHandler(async(req, res) => {
             }
         }
     ]);
+
+    if(!channel?.length){
+        throw new apiError(401, "Channel does not exist");
+    }
+
+    return res.status(200).json(
+        new apiResponse(200, channel[0], "User channel details fetched successfully")
+    );
 });
+
+
